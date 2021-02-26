@@ -41,19 +41,19 @@ def main():  # Plain stress approximation
 
     V21 = (V12*E22)/E11     # Pg 110
 
-    t_ply = [0.15, 0.2, 0.2, 0.15]  # ply thickness in mm
+    t_ply = [0.00015, 0.0002, 0.0002, 0.00015]  # ply thickness in m
     t_LAM = 0
     for i in range(N):
-        t_LAM += t_ply[i]           # laminate thickness in mm
+        t_LAM += t_ply[i]           # laminate thickness in m
 
-    # Distance from laminate mid-plane to out surfaces of plies in mm
+    # Distance from laminate mid-plane to out surfaces of plies in m
     z_0 = -t_LAM/2
 
     z = [(-t_LAM/2) + t_ply[0], (-t_LAM/2) + t_ply[0] + t_ply[1], (-t_LAM/2) + t_ply[0] + t_ply[1] + t_ply[2], (-t_LAM/2) + t_ply[0] + t_ply[1] + t_ply[2] + t_ply[3]]
 
     print(z)
 
-    # [Nxx, Nyy, Nxy, Mxx, Myy, Mxy]
+    # [Nxx, Nyy, Nxy, Mxx, Myy, Mxy] in N/m & N-m/m
     stress_resultant = np.array([[100], [-10], [0], [0], [0], [0]])
 
     # Distance from laminate mid-plane to mid-planes of plies in mm
@@ -90,28 +90,28 @@ def main():  # Plain stress approximation
     '''
 
     # The global/laminate stiffness and compliance matrices
-    Q_bar_array = [0] * N
+    Q_bar = [0] * N
     for i in range(N):
-        Q_bar_array[i] = mm(lg.inv(T[i]), mm(Q_array,T_hat[i]))  # The global/laminate stiffness matrix, pg 114
+        Q_bar[i] = mm(lg.inv(T[i]), mm(Q_array,T_hat[i]))  # The global/laminate stiffness matrix, pg 114
 
-    A_array = [[0]*3]*3
+    A = [[0]*3]*3
     for i in range(N):
-        A_array += Q_bar_array[i] * t_ply[i]
+        A += Q_bar[i] * t_ply[i]
 
-    B_array = [[0]*3]*3
+    B = [[0]*3]*3
     for i in range(N):
-        B_array += (1/2) * (Q_bar_array[i] * ((z[i]**2) - ((z[i] - t_ply[i])**2)))
+        B += (1/2) * (Q_bar[i] * ((z[i]**2) - ((z[i] - t_ply[i])**2)))
 
-    D_array = [[0] * 3] * 3
+    D = [[0] * 3] * 3
     for i in range(N):
-        D_array += (1/3) * (Q_bar_array[i] * ((z[i] ** 3) - ((z[i] - t_ply[i]) ** 3)))
+        D += (1/3) * (Q_bar[i] * ((z[i] ** 3) - ((z[i] - t_ply[i]) ** 3)))
 
-    ABD = np.array([[A_array[0][0],A_array[0][1],A_array[0][2],B_array[0][0],B_array[0][1],B_array[0][2]],
-                    [A_array[1][0],A_array[1][1],A_array[1][2],B_array[1][0],B_array[1][1],B_array[1][2]],
-                    [A_array[2][0],A_array[2][1],A_array[2][2],B_array[2][0],B_array[2][1],B_array[2][2]],
-                    [B_array[0][0],B_array[0][1],B_array[0][2],D_array[0][0],D_array[0][1],D_array[0][2]],
-                    [B_array[1][0],B_array[1][1],B_array[1][2],D_array[1][0],D_array[1][1],D_array[1][2]],
-                    [B_array[2][0],B_array[2][1],B_array[2][2],D_array[2][0],D_array[2][1],D_array[2][2]]])
+    ABD = np.array([[A[0][0],A[0][1],A[0][2],B[0][0],B[0][1],B[0][2]],
+                    [A[1][0],A[1][1],A[1][2],B[1][0],B[1][1],B[1][2]],
+                    [A[2][0],A[2][1],A[2][2],B[2][0],B[2][1],B[2][2]],
+                    [B[0][0],B[0][1],B[0][2],D[0][0],D[0][1],D[0][2]],
+                    [B[1][0],B[1][1],B[1][2],D[1][0],D[1][1],D[1][2]],
+                    [B[2][0],B[2][1],B[2][2],D[2][0],D[2][1],D[2][2]]])
 
     ABD_inverse_array = lg.inv(ABD)
 
@@ -120,12 +120,6 @@ def main():  # Plain stress approximation
 
     # Transforming numpy array into lists for ease of formatting
     Q = Q_array.tolist()
-    Q_bar = [0] * N
-    for i in range(N):
-        Q_bar[i] = Q_bar_array[i].tolist()
-    A = A_array.tolist()
-    B = B_array.tolist()
-    D = D_array.tolist()
     ABD_inverse = ABD_inverse_array.tolist()
     mid_plane_strains_and_curvatures = mid_plane_strains_and_curvatures_array.tolist()
 

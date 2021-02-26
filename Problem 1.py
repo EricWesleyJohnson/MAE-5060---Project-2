@@ -32,10 +32,10 @@ def main():  # Plain stress approximation
     V21 = (V12*E22)/E11     # Pg 110
 
     N = 6                   # number of plies
-    t_ply = 0.15           # ply thickness in mm
-    t_LAM = t_ply * N       # laminate thickness in mm
+    t_ply = 0.00015           # ply thickness in m
+    t_LAM = t_ply * N       # laminate thickness in m
 
-    # [Nxx, Nyy, Nxy, Mxx, Myy, Mxy]
+    # [Nxx, Nyy, Nxy, Mxx, Myy, Mxy] in N/m & N-m/m
     stress_resultant = np.array([[1000], [-100], [100], [0.05], [0.05], [-0.05]])
 
     # Distance from laminate mid-plane to out surfaces of plies)
@@ -49,7 +49,7 @@ def main():  # Plain stress approximation
         z_mid_plane[i] = (-t_LAM / 2) - (t_ply/2) + ((i+1) * t_ply)
 
     # Enter a desired ply orientation angle in degrees here:
-    angle_in_degrees = [0, 30] * 3
+    angle_in_degrees = [0, 0, 0, 30, 30, 30]
 
     # Ply orientation angle translated to radians to simplify equations below
     angle = [0] * N
@@ -159,17 +159,17 @@ def main():  # Plain stress approximation
 
     # Printing the inverse [ABD] matrix
     print("\nThis is the [ABD]\N{SUPERSCRIPT MINUS}\N{SUPERSCRIPT ONE}")
-    print('[' + format(ABD_inverse[0][0], '^11.2f') + format(ABD_inverse[0][1], '^11.2f') + format(ABD_inverse[0][2], '^11.2f') + format(ABD_inverse[0][3], '^11.2f') + format(ABD_inverse[0][4], '^11.2f') + format(ABD_inverse[0][5], '^11.2f') + ']')
-    print('[' + format(ABD_inverse[1][0], '^11.2f') + format(ABD_inverse[1][1], '^11.2f') + format(ABD_inverse[1][2], '^11.2f') + format(ABD_inverse[1][3], '^11.2f') + format(ABD_inverse[1][4], '^11.2f') + format(ABD_inverse[1][5], '^11.2f') + ']')
-    print('[' + format(ABD_inverse[2][0], '^11.2f') + format(ABD_inverse[2][1], '^11.2f') + format(ABD_inverse[2][2], '^11.2f') + format(ABD_inverse[2][3], '^11.2f') + format(ABD_inverse[2][4], '^11.2f') + format(ABD_inverse[2][5], '^11.2f') + ']')
-    print('[' + format(ABD_inverse[3][0], '^11.2f') + format(ABD_inverse[3][1], '^11.2f') + format(ABD_inverse[3][2], '^11.2f') + format(ABD_inverse[3][3], '^11.2f') + format(ABD_inverse[3][4], '^11.2f') + format(ABD_inverse[3][5], '^11.2f') + ']')
-    print('[' + format(ABD_inverse[4][0], '^11.2f') + format(ABD_inverse[4][1], '^11.2f') + format(ABD_inverse[4][2], '^11.2f') + format(ABD_inverse[4][3], '^11.2f') + format(ABD_inverse[4][4], '^11.2f') + format(ABD_inverse[4][5], '^11.2f') + ']')
-    print('[' + format(ABD_inverse[5][0], '^11.2f') + format(ABD_inverse[5][1], '^11.2f') + format(ABD_inverse[5][2], '^11.2f') + format(ABD_inverse[5][3], '^11.2f') + format(ABD_inverse[5][4], '^11.2f') + format(ABD_inverse[5][5], '^11.2f') + ']')
+    print('[' + format(ABD_inverse[0][0], '^8.2f') + format(ABD_inverse[0][1], '^8.2f') + format(ABD_inverse[0][2], '^8.2f') + format(ABD_inverse[0][3], '^8.2f') + format(ABD_inverse[0][4], '^8.2f') + format(ABD_inverse[0][5], '^8.2f') + ']')
+    print('[' + format(ABD_inverse[1][0], '^8.2f') + format(ABD_inverse[1][1], '^8.2f') + format(ABD_inverse[1][2], '^8.2f') + format(ABD_inverse[1][3], '^8.2f') + format(ABD_inverse[1][4], '^8.2f') + format(ABD_inverse[1][5], '^8.2f') + ']')
+    print('[' + format(ABD_inverse[2][0], '^8.2f') + format(ABD_inverse[2][1], '^8.2f') + format(ABD_inverse[2][2], '^8.2f') + format(ABD_inverse[2][3], '^8.2f') + format(ABD_inverse[2][4], '^8.2f') + format(ABD_inverse[2][5], '^8.2f') + ']')
+    print('[' + format(ABD_inverse[3][0], '^8.2f') + format(ABD_inverse[3][1], '^8.2f') + format(ABD_inverse[3][2], '^8.2f') + format(ABD_inverse[3][3], '^8.2f') + format(ABD_inverse[3][4], '^8.2f') + format(ABD_inverse[3][5], '^8.2f') + ']')
+    print('[' + format(ABD_inverse[4][0], '^8.2f') + format(ABD_inverse[4][1], '^8.2f') + format(ABD_inverse[4][2], '^8.2f') + format(ABD_inverse[4][3], '^8.2f') + format(ABD_inverse[4][4], '^8.2f') + format(ABD_inverse[4][5], '^8.2f') + ']')
+    print('[' + format(ABD_inverse[5][0], '^8.2f') + format(ABD_inverse[5][1], '^8.2f') + format(ABD_inverse[5][2], '^8.2f') + format(ABD_inverse[5][3], '^8.2f') + format(ABD_inverse[5][4], '^8.2f') + format(ABD_inverse[5][5], '^8.2f') + ']')
 
     # Printing the mid-plane stresses and curvatures
     print("\nThese are the Mid-plane Strains:")
     print('[' + format(mid_plane_strains_and_curvatures[0][0], '^7.2f') + ']\n[' + format(mid_plane_strains_and_curvatures[1][0], '^7.2f') + ']\n[' + format(mid_plane_strains_and_curvatures[2][0], '^7.2f') + ']\n')
     print("\nAnd the curvatures:" )
-    print('[' + format(mid_plane_strains_and_curvatures[3][0], '^10.2f') + ']\n[' + format(mid_plane_strains_and_curvatures[4][0], '^10.2f') + ']\n[' + format(mid_plane_strains_and_curvatures[5][0], '^10.2f') + ']\n')
+    print('[' + format(mid_plane_strains_and_curvatures[3][0], '^9.2f') + ']\n[' + format(mid_plane_strains_and_curvatures[4][0], '^9.2f') + ']\n[' + format(mid_plane_strains_and_curvatures[5][0], '^9.2f') + ']\n')
 
 main()
