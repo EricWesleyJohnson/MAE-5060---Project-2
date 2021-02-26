@@ -25,9 +25,9 @@ def main():  # Plain stress approximation
 
     # # Independent material properties for AS/3501 graphite epoxy in US
     # E11 = 20.01 * (10**6) # psi
-    # E22 = 1.3 * (10**6)   # psi
+    # E22 = 1.3   * (10**6) # psi
     # V12 = 0.3             # unit-less
-    # G12 = 1.03 * (10**6)  # psi
+    # G12 = 1.03  * (10**6) # psi
 
     V21 = (V12*E22)/E11     # Pg 110
 
@@ -171,7 +171,5 @@ def main():  # Plain stress approximation
     print('[' + format(mid_plane_strains_and_curvatures[0][0], '^7.2f') + ']\n[' + format(mid_plane_strains_and_curvatures[1][0], '^7.2f') + ']\n[' + format(mid_plane_strains_and_curvatures[2][0], '^7.2f') + ']\n')
     print("\nAnd the curvatures:" )
     print('[' + format(mid_plane_strains_and_curvatures[3][0], '^10.2f') + ']\n[' + format(mid_plane_strains_and_curvatures[4][0], '^10.2f') + ']\n[' + format(mid_plane_strains_and_curvatures[5][0], '^10.2f') + ']\n')
-
-
 
 main()
